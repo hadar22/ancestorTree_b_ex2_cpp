@@ -39,8 +39,7 @@ string Node::getRelation(){
     return _myRelation;
 }
 
-void Node::setRelation(char kind)
-{
+void Node::setRelation(char kind){
     string ans = "";
     if (kind == 'm'){
 
@@ -56,7 +55,7 @@ void Node::setRelation(char kind)
     }
     else if (this->getCount() == 2){
 
-        this->_myRelation = "grand" + ans;
+        _myRelation = "grand" + ans;
     }
     else{
 
@@ -81,39 +80,6 @@ Tree::Tree(string name){
     root = new Node(name);
    
 }
-
-Node *Tree::findNode(Node *root, string child)
-{
-    if (root == nullptr) return nullptr;
-
-    if (root->getMyName() == child)return root;
-
-    Node* father= findNode(root->getFather(), child);
-
-    if (father!= nullptr) return father;
-    
-    return findNode(root->getMother(), child);
-    
-
-   
-}
-
-
-Node *Tree::findRelation(Node *root, string relation)
-{
-    if (root == nullptr) return nullptr;
-
-    if (root->getRelation() == relation)
-        return root;
-    
-    Node* father=findRelation(root->getFather(), relation);
-   
-
-    if (father != nullptr) return father;
-
-    return findRelation(root->getMother(), relation);
-}
-
 Tree &Tree::addFather(string child, string father)
 {
     char gender = 'm';
@@ -154,6 +120,23 @@ Tree &Tree::addMother(string child, string mother)
     return *this;
 }
 
+Node *Tree::findNode(Node *root, string child){
+    
+    if (root == nullptr) return nullptr;
+
+    if (root->getMyName() == child)return root;
+
+    Node* father= findNode(root->getFather(), child);
+
+    if (father!= nullptr) return father;
+    
+    return findNode(root->getMother(), child);
+    
+
+}
+
+
+
 string Tree::relation(string name)
 {
     Node *ans = findNode(root, name);
@@ -173,6 +156,22 @@ string Tree::find(string relation)
     
 }
 
+Node *Tree::findRelation(Node *root, string relation)
+{
+    if (root == nullptr) return nullptr;
+
+    if (root->getRelation() == relation)
+        return root;
+    
+    Node* father=findRelation(root->getFather(), relation);
+   
+
+    if (father != nullptr) return father;
+
+    return findRelation(root->getMother(), relation);
+}
+
+
 void Tree::display(Node *node)
 {
     if (node == nullptr) return;
@@ -191,16 +190,16 @@ void Tree::display()
 void Tree:: remove(string name){
     Node* node=findNode(root,name);
     if(node==nullptr){
-        throw runtime_error("no such child");
+        throw runtime_error("The person not exists");
     }
     if(root->getMyName()==name){
-        throw runtime_error("cannot remove");
+        throw runtime_error("Cannot remove");
     }
     if(node->getFather() != nullptr && node->getFather()->getMyName()==name){
         if(node->getFather()==nullptr) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
-        delete node;
+        //delete node;
         node->setFather(nullptr);
 
     }
@@ -208,7 +207,7 @@ void Tree:: remove(string name){
         if(node->getMother()==nullptr) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
-        delete node;
+        //delete node;
         node->setMother(nullptr);
 
     }
