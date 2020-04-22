@@ -73,7 +73,7 @@ void Node::setRelation(char kind){
     }
 }
 Node ::Node (string name) :
- _myName(name), _father(nullptr), _mother(nullptr), _count(0), _myRelation("me"){};
+ _myName(name), _father(NULL), _mother(NULL), _count(0), _myRelation("me"){};
 
 Tree::Tree(string name){
 
@@ -85,8 +85,8 @@ Tree &Tree::addFather(string child, string father){
    char kind = 'm';
     Node *fNode = findNode(root, child);
 
-    if (fNode != nullptr){
-         if(fNode->getFather()==nullptr){
+    if (fNode != NULL){
+         if(fNode->getFather()==NULL){
              Node *nFather = new Node(father);
              nFather->setCount(fNode->getCount() + 1);
              nFather->setRelation(kind);
@@ -110,8 +110,8 @@ Tree &Tree::addMother(string child, string mother){
     char kind = 'w';
     Node *fNode = findNode(root, child);
 
-    if (fNode != nullptr){
-         if(fNode->getMother()==nullptr){
+    if (fNode != NULL){
+         if(fNode->getMother()==NULL){
              Node *nMother = new Node(mother);
              nMother->setCount(fNode->getCount() + 1);
              nMother->setRelation(kind);
@@ -133,13 +133,13 @@ Tree &Tree::addMother(string child, string mother){
 
 Node *Tree::findNode(Node *root, string child){
     
-    if (root == nullptr) return nullptr;
+    if (root == NULL) return NULL;
 
     if (root->getMyName() == child)return root;
 
     Node* father= findNode(root->getFather(), child);
 
-    if (father!= nullptr) return father;
+    if (father!= NULL) return father;
     
     return findNode(root->getMother(), child);
     
@@ -151,7 +151,7 @@ Node *Tree::findNode(Node *root, string child){
 string Tree::relation(string name){
     
     Node *ans = findNode(root, name);
-    if (ans != nullptr) return ans->getRelation();
+    if (ans != NULL) return ans->getRelation();
     return "unrelated";
 
    
@@ -159,7 +159,7 @@ string Tree::relation(string name){
 string Tree::find(string relation){
     Node *ans = findRelation(root, relation);
     
-    if (ans != nullptr) return ans->getMyName();
+    if (ans != NULL) return ans->getMyName();
     else
         throw runtime_error("not found");
     
@@ -167,7 +167,7 @@ string Tree::find(string relation){
 }
 
 Node *Tree::findRelation(Node *root, string relation){
-    if (root == nullptr) return nullptr;
+    if (root == NULL) return NULL;
 
     if (root->getRelation() == relation)
         return root;
@@ -175,14 +175,14 @@ Node *Tree::findRelation(Node *root, string relation){
     Node* father=findRelation(root->getFather(), relation);
    
 
-    if (father != nullptr) return father;
+    if (father != NULL) return father;
 
     return findRelation(root->getMother(), relation);
 }
 
 
 void Tree::display(Node *node){
-    if (node == nullptr) return;
+    if (node == NULL) return;
 
     cout << node->getMyName() <<"|"<< node->getRelation() <<"-------------";
     display(node->getFather());
@@ -197,26 +197,26 @@ void Tree::display(){
 
 void Tree:: remove(string name){
     Node* node=findNode(root,name);
-    if(node==nullptr){
+    if(node==NULL){
         throw runtime_error("The person not exists");
     }
     if(root->getMyName()==name){
         throw runtime_error("Cannot remove");
     }
-    if(node->getFather() != nullptr && node->getFather()->getMyName()==name){
-        if(node->getFather()==nullptr) return;
+    if(node->getFather() != NULL && node->getFather()->getMyName()==name){
+        if(node->getFather()==NULL) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         //delete node;
-        node->setFather(nullptr);
+        node->setFather(NULL);
 
     }
-    if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
-        if(node->getMother()==nullptr) return;
+    if(node->getMother() != NULL && node->getMother()->getMyName()==name){
+        if(node->getMother()==NULL) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         //delete node;
-        node->setMother(nullptr);
+        node->setMother(NULL);
 
     }
     delete node;
