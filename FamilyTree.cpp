@@ -197,14 +197,14 @@ void Tree::display(Node *node){
          remove(node->getFather()->getMyName());
          remove(node->getMother()->getMyName());
          delete node; 
-         node->setFather(Null); 
+         node->setFather(NULL); 
  } 
      if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
          if(node->getMother()==nullptr) return; 
           remove(node->getFather()->getMyName()); 
          remove(node->getMother()->getMyName());
          delete node; 
-         node->setMother(nullptr); 
+         node->setMother(NULL); 
  } 
      delete node;
  }
