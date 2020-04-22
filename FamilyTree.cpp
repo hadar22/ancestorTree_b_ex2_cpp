@@ -80,17 +80,15 @@ Tree::Tree(string name){
     root = new Node(name);
    
 }
-Tree &Tree::addFather(string child, string father)
-{
+Tree &Tree::addFather(string child, string father){
+    
     char gender = 'm';
     Node *fNode = findNode(root, child);
 
-    if (fNode == nullptr)
-    {
+    if (fNode == nullptr){
         throw runtime_error("The child is not exists");
     }
-    else if (fNode->getFather() != nullptr)
-    {
+    else if (fNode->getFather() != nullptr) {
         throw runtime_error("The father already exists");
     }
     Node *nFather = new Node(father);
@@ -100,17 +98,15 @@ Tree &Tree::addFather(string child, string father)
     return *this;
 }
 
-Tree &Tree::addMother(string child, string mother)
-{
+Tree &Tree::addMother(string child, string mother){
+    
     char gender = 'w';
     Node *fNode = findNode(root, child);
 
-    if (fNode == nullptr)
-    {
+    if (fNode == nullptr){
         throw runtime_error("The child is not exists");
     }
-    else if (fNode->getMother() != nullptr)
-    {
+    else if (fNode->getMother() != nullptr){
         throw runtime_error("The nother already exists");
     }
     Node *nMother = new Node(mother);
@@ -137,16 +133,15 @@ Node *Tree::findNode(Node *root, string child){
 
 
 
-string Tree::relation(string name)
-{
+string Tree::relation(string name){
+    
     Node *ans = findNode(root, name);
     if (ans != nullptr) return ans->getRelation();
     return "unrelated";
 
    
 }
-string Tree::find(string relation)
-{
+string Tree::find(string relation){
     Node *ans = findRelation(root, relation);
     
     if (ans != nullptr) return ans->getMyName();
@@ -156,8 +151,7 @@ string Tree::find(string relation)
     
 }
 
-Node *Tree::findRelation(Node *root, string relation)
-{
+Node *Tree::findRelation(Node *root, string relation){
     if (root == nullptr) return nullptr;
 
     if (root->getRelation() == relation)
@@ -172,16 +166,15 @@ Node *Tree::findRelation(Node *root, string relation)
 }
 
 
-void Tree::display(Node *node)
-{
+void Tree::display(Node *node){
     if (node == nullptr) return;
 
     cout << node->getMyName() <<"|"<< node->getRelation() <<"-------------";
     display(node->getFather());
     display(node->getMother());
 }
-void Tree::display()
-{
+void Tree::display(){
+    
     display(root);
     cout << endl;
 }
