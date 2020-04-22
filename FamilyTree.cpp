@@ -94,7 +94,7 @@ Tree &Tree::addFather(string child, string father){
              return *this;
          }
          else{
-              throw runtime_error("The mother already exists");
+              throw runtime_error("The father already exists");
          }
         
     }
@@ -208,7 +208,7 @@ void Tree:: remove(string name){
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         //delete node;
-        node->setFather(NULL);
+        node->setFather(nullptr);
 
     }
     if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
@@ -216,7 +216,7 @@ void Tree:: remove(string name){
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         //delete node;
-        node->setMother(NULL);
+        node->setMother(nullptr);
 
     }
     delete node;
