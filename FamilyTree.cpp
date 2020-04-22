@@ -85,23 +85,17 @@ Tree &Tree::addFather(string child, string father){
    char kind = 'm';
     Node *fNode = findNode(root, child);
 
-    if (fNode != NULL){
-         if(fNode->getFather()==NULL){
+    if (fNode == NULL){
+        throw runtime_error("The child is not exists");
+    }
+    else if(fNode->getFather()!=NULL){
+        throw runtime_error("The father already exists");
+    }
              Node *nFather = new Node(father);
              nFather->setCount(fNode->getCount() + 1);
              nFather->setRelation(kind);
              fNode->setFather(nFather);
              return *this;
-         }
-         else{
-              throw runtime_error("The father already exists");
-         }
-        
-    }
-    else {
-        throw runtime_error("The child is not exists");
-    } 
-    
         
     }
 
@@ -110,25 +104,18 @@ Tree &Tree::addMother(string child, string mother){
     char kind = 'w';
     Node *fNode = findNode(root, child);
 
-    if (fNode != NULL){
-         if(fNode->getMother()==NULL){
+    if (fNode == NULL){
+        throw runtime_error("The child is not exists");
+    }
+    else if(fNode->getMother()!=NULL){
+        throw runtime_error("The mother already exists");
+    }
              Node *nMother = new Node(mother);
              nMother->setCount(fNode->getCount() + 1);
              nMother->setRelation(kind);
              fNode->setMother(nMother);
              return *this;
-         }
-         else{
-              throw runtime_error("The mother already exists");
-         }
-        
-    }
-    else {
-        throw runtime_error("The child is not exists");
-    } 
-    
-        
-    
+             
 }
 
 Node *Tree::findNode(Node *root, string child){
@@ -207,7 +194,7 @@ void Tree:: remove(string name){
         if(node->getFather()==NULL) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
-        //delete node;
+        delete node;
         node->setFather(NULL);
 
     }
@@ -215,7 +202,7 @@ void Tree:: remove(string name){
         if(node->getMother()==NULL) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
-        //delete node;
+        delete node;
         node->setMother(NULL);
 
     }
