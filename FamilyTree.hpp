@@ -16,7 +16,7 @@ private:
     Node *_mother;
     int _count;
     string _myRelation;
-    char _kind;
+    
 
 public:
     Node(string name); 
@@ -29,8 +29,7 @@ public:
     Node *getFather();
     Node *getMother();
     int getCount();
-    //char getKind();
-    //void setKind(char v);
+   
 };
 
 class Tree
@@ -40,14 +39,14 @@ private:
 
 public:
     Tree(string name);
-    Node *findNode(Node *root, string child);
-    Node *findRelation(Node *root, string relation);
     Tree &addFather(string child, string father);
     Tree &addMother(string child, string mother);
+    Node *findNode(Node *root, string child);
     string relation(string name);
     string find(string relation);
+    Node *findRelation(Node *root, string relation);
     void display();
-    void display(Node *r);
+    void display(Node *node);
     void remove(string name);
     
 };
