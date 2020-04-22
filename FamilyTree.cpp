@@ -74,7 +74,7 @@ void Node::setRelation(char kind){
     }
 }
 Node ::Node (string name) :
- _myName(name), _father(NULL), _mother(NULL), _count(0), _myRelation("me"){};
+ _myName(name), _father(nullptr), _mother(nullptr), _count(0), _myRelation("me"){};
 
 Tree::Tree(string name){
 
@@ -86,10 +86,10 @@ Tree &Tree::addFather(string child, string father){
    char kind = 'm';
     Node *fNode = findNode(root, child);
 
-    if (fNode == NULL){
+    if (fNode == nullptr){
         throw runtime_error("The child is not exists");
     }
-    else if(fNode->getFather()!=NULL){
+    else if(fNode->getFather()!=nullptr){
         throw runtime_error("The father already exists");
     }
              Node *nFather = new Node(father);
@@ -105,10 +105,10 @@ Tree &Tree::addMother(string child, string mother){
     char kind = 'w';
     Node *fNode = findNode(root, child);
 
-    if (fNode == NULL){
+    if (fNode == nullptr){
         throw runtime_error("The child is not exists");
     }
-    else if(fNode->getMother()!=NULL){
+    else if(fNode->getMother()!=nullptr){
         throw runtime_error("The mother already exists");
     }
              Node *nMother = new Node(mother);
@@ -121,13 +121,13 @@ Tree &Tree::addMother(string child, string mother){
 
 Node *Tree::findNode(Node *root, string child){
     
-    if (root == NULL) return NULL;
+    if (root == nullptr) return nullptr;
 
     if (root->getMyName() == child)return root;
 
     Node* father= findNode(root->getFather(), child);
 
-    if (father!= NULL) return father;
+    if (father!= nullptr) return father;
     
     return findNode(root->getMother(), child);
     
@@ -139,7 +139,7 @@ Node *Tree::findNode(Node *root, string child){
 string Tree::relation(string name){
     
     Node *ans = findNode(root, name);
-    if (ans != NULL) return ans->getRelation();
+    if (ans != nullptr) return ans->getRelation();
     return "unrelated";
 
    
@@ -147,7 +147,7 @@ string Tree::relation(string name){
 string Tree::find(string relation){
     Node *ans = findRelation(root, relation);
     
-    if (ans != NULL) return ans->getMyName();
+    if (ans != nullptr) return ans->getMyName();
     else
         throw runtime_error("not found");
     
@@ -155,7 +155,7 @@ string Tree::find(string relation){
 }
 
 Node *Tree::findRelation(Node *root, string relation){
-    if (root == NULL) return NULL;
+    if (root == nullptr) return nullptr;
 
     if (root->getRelation() == relation)
         return root;
@@ -167,46 +167,44 @@ Node *Tree::findRelation(Node *root, string relation){
 
     return findRelation(root->getMother(), relation);
 }
-
-
-void Tree::display(Node *node){
-    if (node == NULL) return;
-
-    cout << node->getMyName() <<"|"<< node->getRelation() <<"-------------";
-    display(node->getFather());
-    display(node->getMother());
-}
 void Tree::display(){
     
     display(root);
     cout << endl;
 }
 
+void Tree::display(Node *node){
+    if (node == nullptr) return;
 
-void Tree:: remove(string name){
-    Node* node=findNode(root,name);
-    if(node==NULL){
-        throw runtime_error("The person not exists");
-    }
-    if(this->root->getMyName()==name){
-        throw runtime_error("Cannot remove");
-    }
-    if(node->getFather() != nullptr && node->getFather()->getMyName()==name){
-        if(node->getFather()==nullptr) return;
-        remove(node->getFather()->getMyName());
-        remove(node->getMother()->getMyName());
-        delete node;
-        node->setFather(NULL);
-
-    }
-    if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
-        if(node->getMother()==nullptr) return;
-        remove(node->getFather()->getMyName());
-        remove(node->getMother()->getMyName());
-        delete node;
-        node->setMother(NULL);
-
-    }
-    delete node;
-    
+    cout << node->getMyName() <<"|"<< node->getRelation() <<"-------------";
+    display(node->getFather());
+    display(node->getMother());
 }
+
+
+
+
+ void Tree:: remove(string name){ 
+   Node* node=findNode(root,name);
+     if(node==nullptr){ 
+         throw runtime_error(" not exist"); 
+     } 
+     if(root->getMyName()==name){ 
+         throw runtime_error("cannot remove");
+     } 
+     if(node->getFather() != nullptr && node->getFather()->getMyName()==name){
+         if(node->getFather()==nullptr) return;
+         remove(node->getFather()->getMyName());
+         remove(node->getMother()->getMyName());
+         delete node; 
+         node->setFather(Null); 
+ } 
+     if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
+         if(node->getMother()==nullptr) return; 
+          remove(node->getFather()->getMyName()); 
+         remove(node->getMother()->getMyName());
+         delete node; 
+         node->setMother(nullptr); 
+ } 
+     delete node;
+ }
