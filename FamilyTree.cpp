@@ -82,38 +82,53 @@ Tree::Tree(string name){
 }
 Tree &Tree::addFather(string child, string father){
     
-    char gender = 'm';
+   char kind = 'm';
     Node *fNode = findNode(root, child);
 
-    if (fNode == nullptr){
+    if (fNode != nullptr){
+         if(fNode->getFather()==nullptr){
+             Node *nFather = new Node(father);
+             nFather->setCount(fNode->getCount() + 1);
+             nFather->setRelation(kind);
+             fNode->setFather(nFather);
+             return *this;
+         }
+         else{
+              throw runtime_error("The mother already exists");
+         }
+        
+    }
+    else {
         throw runtime_error("The child is not exists");
+    } 
+    
+        
     }
-    else if (fNode->getFather() != nullptr) {
-        throw runtime_error("The father already exists");
-    }
-    Node *nFather = new Node(father);
-    nFather->setCount(fNode->getCount() + 1);
-    nFather->setRelation(gender);
-    fNode->setFather(nFather);
-    return *this;
-}
 
 Tree &Tree::addMother(string child, string mother){
     
-    char gender = 'w';
+    char kind = 'w';
     Node *fNode = findNode(root, child);
 
-    if (fNode == nullptr){
+    if (fNode != nullptr){
+         if(fNode->getMother()==nullptr){
+             Node *nMother = new Node(mother);
+             nMother->setCount(fNode->getCount() + 1);
+             nMother->setRelation(kind);
+             fNode->setMother(nMother);
+             return *this;
+         }
+         else{
+              throw runtime_error("The mother already exists");
+         }
+        
+    }
+    else {
         throw runtime_error("The child is not exists");
-    }
-    else if (fNode->getMother() != nullptr){
-        throw runtime_error("The nother already exists");
-    }
-    Node *nMother = new Node(mother);
-    nMother->setCount(fNode->getCount() + 1);
-    nMother->setRelation(gender);
-    fNode->setMother(nMother);
-    return *this;
+    } 
+    
+        
+    
 }
 
 Node *Tree::findNode(Node *root, string child){
@@ -193,7 +208,7 @@ void Tree:: remove(string name){
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         //delete node;
-        node->setFather(nullptr);
+        node->setFather(NULL);
 
     }
     if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
@@ -201,8 +216,9 @@ void Tree:: remove(string name){
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         //delete node;
-        node->setMother(nullptr);
+        node->setMother(NULL);
 
     }
     delete node;
+    
 }
