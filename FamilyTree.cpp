@@ -63,13 +63,14 @@ void Node::setRelation(char kind){
 
           int sumOfGreat=this->getCount() - 2;
 
-             string ansWithGreat = ans;
+            // string ansWithGreat = ans;
 
              for (int i=0; i < sumOfGreat ; i++){
 
-                 ansWithGreat="great-"+ansWithGreat;
+                // ansWithGreat="great-"+ansWithGreat;
+                 ans="great-"+ans;
              }
-             _myRelation=ansWithGreat;
+             _myRelation=ans;
     }
 }
 Node ::Node (string name) :
@@ -187,19 +188,19 @@ void Tree:: remove(string name){
     if(node==NULL){
         throw runtime_error("The person not exists");
     }
-    if(root->getMyName()==name){
+    if(this->root->getMyName()==name){
         throw runtime_error("Cannot remove");
     }
-    if(node->getFather() != NULL && node->getFather()->getMyName()==name){
-        if(node->getFather()==NULL) return;
+    if(node->getFather() != nullptr && node->getFather()->getMyName()==name){
+        if(node->getFather()==nullptr) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         delete node;
         node->setFather(NULL);
 
     }
-    if(node->getMother() != NULL && node->getMother()->getMyName()==name){
-        if(node->getMother()==NULL) return;
+    if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
+        if(node->getMother()==nullptr) return;
         remove(node->getFather()->getMyName());
         remove(node->getMother()->getMyName());
         delete node;
