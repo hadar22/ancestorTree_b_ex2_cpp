@@ -84,6 +84,7 @@ TEST_CASE("Test 1 remove") {
      .addFather("Rami", "David");
 
     //CHECK_THROWS(T.remove("Maya")); //try to remove the root --> exception
+    
 
     CHECK((T.find("grandfather") == string("David") || T.find("grandfather") == string("Yoni")));
 

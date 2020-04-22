@@ -13,6 +13,7 @@ TEST_CASE("Reference add Tree case") {
 	 .addMother("Yaakov", "Rivka")
 	 .addFather("Isaac", "Avraham")
 	 .addFather("Avraham", "Terah");
+	 
 }
 
 TEST_CASE("Yosef Tree case") {  
