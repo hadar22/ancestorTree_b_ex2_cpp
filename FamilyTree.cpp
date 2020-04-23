@@ -182,9 +182,14 @@ void Tree:: remove(string name){
   
     
 }
-void Tree:: freeTree(Node* t){
-    if(t->getFather()) freeTree(t->getFather());
-    if(t->getMother()) freeTree(t->getMother());
-    if(!t->getFather() && !t->getMother()) delete(t);
+    void Tree:: freeTree(Node* node){
+    if(node->getFather()) freeTree(node->getFather());
+        
+    if(node->getMother()) freeTree(node->getMother()); 
+        
+    if(node->getFather()==nullptr && node->getMother()==nullptr)
+        delete(node);
+
+
 
 }
