@@ -1,127 +1,101 @@
 #include "FamilyTree.hpp"
+#include <iostream>
 #include <stdexcept>
 
 using namespace family;
 
 void Node::setFather(Node *father){
-
     _father = father;
 }
 Node *Node::getFather(){
-
     return _father;
 }
 void Node::setMother(Node *mother){
-
     _mother = mother;
 }
 
 Node *Node::getMother(){
-
     return _mother;
 }
-
-string Node::getMyName(){
-
-    return _myName;
-}
 void Node::setCount(int count){
-
     _count = count;
 }
 int Node::getCount(){
-
     return _count;
 }
-
+string Node::getMyName(){
+    return _myName;
+}
 string Node::getRelation(){
-
     return _myRelation;
 }
-
 void Node::setRelation(char kind){
-    string ans = "";
+    string ans= "";
     if (kind == 'm'){
-
-        ans = "father";
+        ans= "father";
     }
     else if (kind == 'w'){
-
         ans = "mother";
     }
-    if (this->getCount() == 1){
-
-        _myRelation = ans;
+    if (getCount() == 1){
+        _myRelation= ans;
     }
-    else if (this->getCount() == 2){
-
-        _myRelation = "grand" + ans;
+    else if (getCount() == 2){
+        _myRelation= "grand" + ans;
     }
     else{
-
-        ans= "grand" + ans;
-
-          int sumOfGreat=this->getCount() - 2;
-
-            // string ansWithGreat = ans;
-
-             for (int i=0; i < sumOfGreat ; i++){
-
-                // ansWithGreat="great-"+ansWithGreat;
+           ans= "grand" + ans;
+           int sumOfGreat=getCount() - 2;
+           string ansWithGreat = ans;
+           for (int i=0; i < sumOfGreat ; i++){
+                ansWithGreat="great-"+ansWithGreat;
                  ans="great-"+ans;
              }
              _myRelation=ans;
     }
 }
-Node ::Node (string name) :
- _myName(name), _father(nullptr), _mother(nullptr), _count(0), _myRelation("me"){};
-
 Tree::Tree(string name){
-
     root = new Node(name);
    
 }
-Tree &Tree::addFather(string child, string father){
-    
-   char kind = 'm';
-    Node *fNode = findNode(root, child);
+Node::Node(string name) : 
+_myName(name),_father(nullptr), _mother(nullptr), _count(0), _myRelation("me"){};
 
-    if (fNode == nullptr){
-        throw runtime_error("The child is not exists");
+Tree &Tree::addFather(string child, string father){
+
+    char kind = 'm';
+
+    if (findNode(root, child) == nullptr){
+        throw runtime_error("The child does not exist");
     }
-    else if(fNode->getFather()!=nullptr){
+    else if (findNode(root, child)->getFather() != nullptr){
         throw runtime_error("The father already exists");
     }
-             Node *nFather = new Node(father);
-             nFather->setCount(fNode->getCount() + 1);
-             nFather->setRelation(kind);
-             fNode->setFather(nFather);
-             return *this;
-        
-    }
+    Node *new_father = new Node(father);
+    new_father->setCount(findNode(root, child)->getCount() + 1);
+    new_father->setRelation(kind);
+    findNode(root, child)->setFather(new_father);
+    return *this;
+}
 
 Tree &Tree::addMother(string child, string mother){
-    
     char kind = 'w';
-    Node *fNode = findNode(root, child);
 
-    if (fNode == nullptr){
-        throw runtime_error("The child is not exists");
+    if (findNode(root, child)== nullptr){
+        throw runtime_error("The child does not exist");
     }
-    else if(fNode->getMother()!=nullptr){
+    else if (findNode(root, child)->getMother() != nullptr){
         throw runtime_error("The mother already exists");
     }
-             Node *nMother = new Node(mother);
-             nMother->setCount(fNode->getCount() + 1);
-             nMother->setRelation(kind);
-             fNode->setMother(nMother);
-             return *this;
-             
+    Node *new_mother = new Node(mother);
+    new_mother->setCount(findNode(root, child)->getCount() + 1);
+    new_mother->setRelation(kind);
+    findNode(root, child)->setMother(new_mother);
+    return *this;
 }
 
 Node *Tree::findNode(Node *root, string child){
-    
-    if (root == nullptr) return nullptr;
+     if (root == nullptr) return nullptr;
 
     if (root->getMyName() == child)return root;
 
@@ -130,28 +104,27 @@ Node *Tree::findNode(Node *root, string child){
     if (father!= nullptr) return father;
     
     return findNode(root->getMother(), child);
-    
-
 }
-
 
 
 string Tree::relation(string name){
-    
-    Node *ans = findNode(root, name);
-    if (ans != nullptr) return ans->getRelation();
-    return "unrelated";
 
-   
+  
+    if (findNode(root, name) == nullptr){
+        return "unrelated";
+    }
+    else {
+        return findNode(root, name)->getRelation();
+    }
 }
 string Tree::find(string relation){
-    Node *ans = findRelation(root, relation);
-    
-    if (ans != nullptr) return ans->getMyName();
-    else
-        throw runtime_error("not found");
-    
-    
+
+    if (findRelation(root, relation) == nullptr) {
+        throw runtime_error(" not found");
+    }
+    else{
+        return findRelation(root, relation)->getMyName();
+    }
 }
 
 Node *Tree::findRelation(Node *root, string relation){
@@ -163,48 +136,55 @@ Node *Tree::findRelation(Node *root, string relation){
     Node* father=findRelation(root->getFather(), relation);
    
 
-    if (father != NULL) return father;
+    if (father != nullptr) return father;
 
     return findRelation(root->getMother(), relation);
 }
-void Tree::display(){
-    
+
+void Tree::display(Node *r)
+{
+    if (r == nullptr)
+        return;
+    cout << r->getMyName() <<"|"<<r->getRelation() <<",";
+    display(r->getFather());
+    display(r->getMother());
+}
+void Tree::display()
+{
     display(root);
     cout << endl;
 }
 
-void Tree::display(Node *node){
-    if (node == nullptr) return;
 
-    cout << node->getMyName() <<"|"<< node->getRelation() <<"-------------";
-    display(node->getFather());
-    display(node->getMother());
+void Tree:: remove(string name){
+   
+     if(!findNode(root,name)){
+          throw runtime_error("The person not exists");
+     }
+   
+    if(root->getMyName()==name){
+        throw runtime_error("Cannot remove");
+    }
+    if(root->getFather() != nullptr && root->getFather()->getMyName()==name){
+        
+            freeTree(root->getFather());
+        root->setFather(nullptr);
+        
+        
+
+    }
+    if(root->getMother() !=nullptr && root->getMother()->getMyName()==name){
+        
+            freeTree(root->getFather());
+            root->setMother(nullptr);
+        }
+    
+  
+    
 }
+void Tree:: freeTree(Node* t){
+    if(t->getFather()) freeTree(t->getFather());
+    if(t->getMother()) freeTree(t->getMother());
+    if(!t->getFather() && !t->getMother()) delete(t);
 
-
-
-
- void Tree:: remove(string name){ 
-   Node* node=findNode(root,name);
-     if(node==nullptr){ 
-         throw runtime_error(" not exist"); 
-     } 
-     if(root->getMyName()==name){ 
-         throw runtime_error("cannot remove");
-     } 
-     if(node->getFather() != nullptr && node->getFather()->getMyName()==name){
-         if(node->getFather()==nullptr) return;
-         remove(node->getFather()->getMyName());
-         remove(node->getMother()->getMyName());
-         delete node; 
-         node->setFather(NULL); 
- } 
-     if(node->getMother() != nullptr && node->getMother()->getMyName()==name){
-         if(node->getMother()==nullptr) return; 
-          remove(node->getFather()->getMyName()); 
-         remove(node->getMother()->getMyName());
-         delete node; 
-         node->setMother(NULL); 
- } 
-     delete node;
- }
+}
