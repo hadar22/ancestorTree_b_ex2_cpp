@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 
+#define SPACE 5
+
 using namespace family;
 
 void Node::setFather(Node *father){
@@ -64,34 +66,40 @@ _myName(name),_father(nullptr), _mother(nullptr), _count(0), _myRelation("me"){}
 Tree &Tree::addFather(string child, string father){
 
     char kind = 'm';
-
-    if (findNode(root, child) == nullptr){
+    if (findNode(root, child) != nullptr){
+        if (findNode(root, child)->getFather() == nullptr){
+            Node *nFather = new Node(father);
+            nFather->setCount(findNode(root, child)->getCount() + 1);
+            nFather->setRelation(kind);
+            findNode(root, child)->setFather(nFather);
+            return *this;
+        }
+        else{
+            throw runtime_error("The father already exists");
+        }
+    }else{
         throw runtime_error("The child does not exist");
     }
-    else if (findNode(root, child)->getFather() != nullptr){
-        throw runtime_error("The father already exists");
-    }
-    Node *new_father = new Node(father);
-    new_father->setCount(findNode(root, child)->getCount() + 1);
-    new_father->setRelation(kind);
-    findNode(root, child)->setFather(new_father);
-    return *this;
+
+   
 }
 
 Tree &Tree::addMother(string child, string mother){
     char kind = 'w';
-
-    if (findNode(root, child)== nullptr){
+    if (findNode(root, child) != nullptr){
+        if (findNode(root, child)->getMother() == nullptr){
+            Node *nMother = new Node(mother);
+            nMother->setCount(findNode(root, child)->getCount() + 1);
+            nMother->setRelation(kind);
+            findNode(root, child)->setMother(nMother);
+            return *this;
+        }
+        else{
+            throw runtime_error("The mother already exists");
+        }
+    }else{
         throw runtime_error("The child does not exist");
     }
-    else if (findNode(root, child)->getMother() != nullptr){
-        throw runtime_error("The mother already exists");
-    }
-    Node *new_mother = new Node(mother);
-    new_mother->setCount(findNode(root, child)->getCount() + 1);
-    new_mother->setRelation(kind);
-    findNode(root, child)->setMother(new_mother);
-    return *this;
 }
 
 Node *Tree::findNode(Node *root, string child){
@@ -141,19 +149,29 @@ Node *Tree::findRelation(Node *root, string relation){
     return findRelation(root->getMother(), relation);
 }
 
-void Tree::display(Node *r)
-{
-    if (r == nullptr)
-        return;
-    cout << r->getMyName() <<"|"<<r->getRelation() <<",";
-    display(r->getFather());
-    display(r->getMother());
-}
-void Tree::display()
-{
-    display(root);
-    cout << endl;
-}
+
+void print2DUtil(Node *root, int space)  {   
+    if (root == NULL)  
+        return;  
+   
+    space += SPACE;  
+  
+    
+    print2DUtil(root->getFather(), space);  
+   
+    cout<<endl;  
+    for (int i = SPACE; i < space; i++)  
+        cout<<" ";  
+    cout<<root->getMyName()<<"\n";  
+  
+    print2DUtil(root->getMother(), space);  
+}  
+    
+void Tree:: display()  
+{  
+    
+    print2DUtil(root, 0);  
+}  
 
 
 void Tree:: remove(string name){
