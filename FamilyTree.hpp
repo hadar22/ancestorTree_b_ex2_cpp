@@ -5,10 +5,8 @@
 
 using namespace std;
 
-namespace family
-{
-class Node
-{
+namespace family{
+class Node{
 
 private:
     string _myName;
@@ -19,7 +17,7 @@ private:
     
 
 public:
-    Node(string name); 
+   Node(string name); 
     void setFather(Node *father);
     void setMother(Node *mother);
     void setCount(int count);
@@ -29,7 +27,9 @@ public:
     Node *getFather();
     Node *getMother();
     int getCount();
-   
+
+    
+    
 };
 
 class Tree
@@ -38,16 +38,20 @@ private:
     Node *root;
 
 public:
-    Tree(string name);
+   Tree(string name);
     Tree &addFather(string child, string father);
     Tree &addMother(string child, string mother);
     Node *findNode(Node *root, string child);
+    Node *findRelation(Node *root, string relation);
     string relation(string name);
     string find(string relation);
-    Node *findRelation(Node *root, string relation);
     void display();
-    void display(Node *node);
+    void display(Node *r);
     void remove(string name);
+    void freeTree(Node* tree);
+    
+
+    
     
 };
 };
