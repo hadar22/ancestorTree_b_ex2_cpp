@@ -5,8 +5,10 @@
 
 using namespace std;
 
-namespace family{
-class Node{
+namespace family
+{
+class Node
+{
 
 private:
     string _myName;
@@ -46,9 +48,8 @@ public:
     string relation(string name);
     string find(string relation);
     void display();
-    void display(Node *r);
     void remove(string name);
-    void freeTree(Node* tree);
+    void freeTree(Node* node);
     
 
     
