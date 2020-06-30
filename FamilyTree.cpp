@@ -58,8 +58,8 @@ void Node::setRelation(char kind){
 }
 Tree::Tree(string name){
     root = new Node(name);
-   
-}
+  root->setCount(0);
+};
 Node::Node(string name) : 
 _myName(name),_father(nullptr), _mother(nullptr), _count(0), _myRelation("me"){};
 
@@ -107,11 +107,12 @@ Node *Tree::findNode( Node* root, string child){
 
     if (root->getMyName() == child)return root;
 
-    Node* father= findNode(root->getFather(), child);
+  //  Node* Nfather= findNode(root->getFather(), child);
 
-    if (father!= nullptr) return father;
+    //if (Nfather!= nullptr) return Nfather;
     
-    return findNode(root->getMother(), child);
+    //return findNode(root->getMother(), child);
+    return findNode(root->getFather(), child)?:findNode(root->getMother(),child);
 }
 
 
