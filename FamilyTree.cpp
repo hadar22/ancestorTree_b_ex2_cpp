@@ -102,7 +102,7 @@ Tree &Tree::addMother(string child, string mother){
     }
 }
 
-Node *Tree::findNode(Node *root, string child){
+Node *Tree::findNode(const Node& root, string child){
      if (root == nullptr) return nullptr;
 
     if (root->getMyName() == child)return root;
@@ -135,7 +135,7 @@ string Tree::find(string relation){
     }
 }
 
-Node *Tree::findRelation(Node *root, string relation){
+Node *Tree::findRelation(const Node& root, string relation){
     if (root == nullptr) return nullptr;
 
     if (root->getRelation() == relation)
